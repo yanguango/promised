@@ -1,0 +1,17 @@
+{
+  "name": "promise-ts",
+  "version": "1.0.0",
+  "description": "A promise implementation in TypeScript",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "node dist/test/aplus_test.js"
+  },
+  "author": "yanguango",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^2.6.2",
+    "promises-aplus-tests": "*"
+  }
+}
