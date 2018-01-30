@@ -1,17 +1,19 @@
 {
-  "name": "promise-ts",
+  "name": "promised",
   "version": "1.0.0",
-  "description": "A promise implementation in TypeScript",
-  "main": "index.js",
-  "types": "index.d.ts",
+  "description": "A 150 loc Promises/A+ implementation",
+  "main": "src/promise.js",
   "scripts": {
-    "build": "tsc",
+    "build": "babel src/** test/** -d dist",
     "test": "node dist/test/aplus_test.js"
   },
   "author": "yanguango",
   "license": "MIT",
   "devDependencies": {
-    "typescript": "^2.6.2",
-    "promises-aplus-tests": "*"
+    "babel-core": "^6.26.0",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
+    "promises-aplus-tests": "*",
+    "typescript": "^2.6.2"
   }
 }

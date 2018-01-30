@@ -1,31 +1,28 @@
-enum State {
-  Pending,
-  Fulfilled,
-  Rejected
+const State = {
+  Pending: 'Pending',
+  Fulfilled: 'Fulfilled',
+  Rejected: 'Rejected'
 }
 
-class Util {
-  static isFunction(val: any): boolean {
+const Util = {
+  isFunction(val) {
     return val && typeof val === "function";
-  }
+  },
 
-  static isObject(val: any): boolean {
+  isObject(val) {
     return val && typeof val === "object";
   }
 }
 
 export class Promise {
-  private _state: State;
-  private _value: any;
-  private _handlers: any[] = [];
-
-  constructor(executor: (resovle: any, reject: any) => void) {
+  constructor(executor) {
     this._state = State.Pending;
-
+    this._handlers = [];
+    this._value = null;
     executor(this._resolve.bind(this), this._reject.bind(this));
   }
 
-  private _resolve(x: any) {
+  _resolve(x) {
     if (x === this) {
       throw new TypeError("Resolving object can not be the same object");
     } else if (x instanceof Promise) {
@@ -37,11 +34,11 @@ export class Promise {
         if (Util.isFunction(thenable)) {
           thenable.call(
             x,
-            (result: any) => {
+            (result) => {
               if (!called) this._resolve(result);
               called = true;
             },
-            (error: any) => {
+            (error) => {
               if (!called) this._reject(error);
               called = true;
             }
@@ -59,38 +56,38 @@ export class Promise {
     }
   }
 
-  private _fulfill(result: any) {
+  _fulfill(result) {
     this._state = State.Fulfilled;
     this._value = result;
     this._handlers.forEach(handler => this._callHandler(handler));
   }
 
-  private _reject(error: any) {
+  _reject(error) {
     this._state = State.Rejected;
     this._value = error;
     this._handlers.forEach(handler => this._callHandler(handler));
   }
 
-  private _isPending(): boolean {
+  _isPending() {
     return this._state === State.Pending;
   }
 
-  private _isFulfilled(): boolean {
+  _isFulfilled() {
     return this._state === State.Fulfilled;
   }
 
-  private _isRejected(): boolean {
+  _isRejected() {
     return this._state === State.Rejected;
   }
 
-  private _addHandler(onFulfilled: any, onRejected: any) {
+  _addHandler(onFulfilled, onRejected) {
     this._handlers.push({
       onFulfilled,
       onRejected
     });
   }
 
-  private _callHandler(handler: { onFulfilled: any; onRejected: any }) {
+  _callHandler(handler) {
     if (this._isFulfilled() && Util.isFunction(handler.onFulfilled)) {
       handler.onFulfilled(this._value);
     } else if (this._isRejected() && Util.isFunction(handler.onRejected)) {
@@ -98,12 +95,12 @@ export class Promise {
     }
   }
 
-  then(onFulfilled: any, onRejected?: any) {
+  then(onFulfilled, onRejected) {
     switch (this._state) {
       case State.Pending: {
         return new Promise((resolve, reject) => {
           this._addHandler(
-            (value: any) => {
+            (value) => {
               setTimeout(() => {
                 try {
                   if (Util.isFunction(onFulfilled)) {
@@ -116,7 +113,7 @@ export class Promise {
                 }
               }, 0);
             },
-            (error: any) => {
+            (error) => {
               setTimeout(() => {
                 try {
                   if (Util.isFunction(onRejected)) {

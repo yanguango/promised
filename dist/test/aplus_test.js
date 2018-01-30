@@ -1,11 +1,13 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const promise_1 = require("../src/promise");
+
+var _promise = require("../src/promise");
+
 var promisesAplusTests = require("promises-aplus-tests");
-const adapter = {
-    deferred() {
-        const pending = {};
-        pending.promise = new promise_1.Promise((resolver, reject) => {
+
+var adapter = {
+    deferred: function deferred() {
+        var pending = {};
+        pending.promise = new _promise.Promise(function (resolver, reject) {
             pending.resolve = resolver;
             pending.reject = reject;
         });

@@ -1,10 +1,10 @@
 import { Promise } from "../src/promise";
-declare var require:(moduleId:string) => any;
+
 var promisesAplusTests = require("promises-aplus-tests");
 
 const adapter = {
     deferred() {
-        const pending: any = {};
+        const pending = {};
         pending.promise = new Promise((resolver, reject) => {
             pending.resolve = resolver;
             pending.reject = reject;
@@ -12,6 +12,6 @@ const adapter = {
         return pending;
     }
 };
-promisesAplusTests(adapter, function (err: any) {
+promisesAplusTests(adapter, function (err) {
     // All done; output is in the console. Or check `err` for number of failures.
 });
