@@ -4,10 +4,10 @@ var _promise = require("../src/promise");
 
 var promisesAplusTests = require("promises-aplus-tests");
 
-var adapter = {
-    deferred: function deferred() {
-        var pending = {};
-        pending.promise = new _promise.Promise(function (resolver, reject) {
+const adapter = {
+    deferred() {
+        const pending = {};
+        pending.promise = new _promise.Promise((resolver, reject) => {
             pending.resolve = resolver;
             pending.reject = reject;
         });
