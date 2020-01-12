@@ -27,7 +27,13 @@ class Promise {
     executor(this._resolve.bind(this), this._reject.bind(this));
   }
 
+  _hasResolved() {
+    return this._isFulfilled() || this._isRejected();
+  }
+
   _resolve(x) {
+    if (this._hasResolved()) return;
+
     if (x === this) {
       throw new TypeError("Resolving object can not be the same object");
     } else if (x instanceof Promise) {
@@ -58,12 +64,16 @@ class Promise {
   }
 
   _fulfill(result) {
+    if (this._hasResolved()) return;
+
     this._state = State.Fulfilled;
     this._value = result;
     this._handlers.forEach(handler => this._callHandler(handler));
   }
 
   _reject(error) {
+    if (this._hasResolved()) return;
+
     this._state = State.Rejected;
     this._value = error;
     this._handlers.forEach(handler => this._callHandler(handler));
